@@ -1,100 +1,75 @@
 
-import styled from 'styled-components';
 import { Layout, Card } from 'antd';
+import React from 'react';
 
-export const StyledHeader = styled(Layout.Header)`
-  background: #fff;
-  padding: 0 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1000;
-`;
+export const StyledHeader: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <Layout.Header className="bg-white px-6 shadow-md flex items-center justify-between fixed top-0 w-full z-[1000]">
+    {children}
+  </Layout.Header>
+);
 
-export const LogoContainer = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 24px;
-  font-weight: bold;
-  color: #1890ff;
-`;
+export const LogoContainer: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <div className="flex items-center text-2xl font-bold text-blue-500">
+    {children}
+  </div>
+);
 
-export const LogoImage = styled.img`
-  height: 40px;
-  margin-right: 12px;
-`;
+export const LogoImage: React.FC<{ src: string; alt: string }> = ({ src, alt }) => (
+  <img src={src} alt={alt} className="h-10 mr-3" />
+);
 
-export const MainContent = styled(Layout.Content)`
-  margin-top: 64px;
-  padding: 40px 24px;
-  min-height: calc(100vh - 64px);
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-`;
+export const MainContent: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <Layout.Content className="mt-16 p-10 min-h-[calc(100vh-64px)]" style={{
+    background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)'
+  }}>
+    {children}
+  </Layout.Content>
+);
 
-export const ContentContainer = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-`;
+export const ContentContainer: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <div className="max-w-6xl mx-auto p-5">
+    {children}
+  </div>
+);
 
-export const StepsContainer = styled.div`
-  margin: 40px 0;
-  background: white;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-`;
+export const StepsContainer: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <div className="my-10 bg-white p-10 rounded-xl shadow-lg">
+    {children}
+  </div>
+);
 
-export const StepCard = styled(Card)`
-  margin-top: 32px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  
-  .ant-card-body {
-    padding: 32px;
-  }
-`;
+interface StepCardProps {
+  title: string;
+  extra?: React.ReactNode;
+  children: React.ReactNode;
+}
 
-export const InstructionList = styled.ul`
-  list-style: none;
-  padding: 0;
-  margin: 24px 0;
-  
-  li {
-    padding: 12px 0;
-    border-bottom: 1px solid #f0f0f0;
-    display: flex;
-    align-items: center;
-    
-    &:last-child {
-      border-bottom: none;
-    }
-    
-    &::before {
-      content: '✓';
-      color: #52c41a;
-      font-weight: bold;
-      margin-right: 12px;
-      width: 20px;
-      text-align: center;
-    }
-  }
-`;
+export const StepCard: React.FC<StepCardProps> = ({ title, extra, children }) => (
+  <Card 
+    title={title}
+    extra={extra}
+    className="mt-8 rounded-lg shadow-sm"
+    bodyStyle={{ padding: '32px' }}
+  >
+    {children}
+  </Card>
+);
 
-export const UploadSection = styled.div`
-  text-align: center;
-  padding: 40px;
-  background: #fafafa;
-  border-radius: 8px;
-  border: 2px dashed #d9d9d9;
-  margin: 24px 0;
-  
-  &:hover {
-    border-color: #1890ff;
-    background: #f0f8ff;
-  }
-`;
+export const InstructionList: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <ul className="list-none p-0 my-6">
+    {children}
+  </ul>
+);
+
+export const InstructionListItem: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <li className="py-3 border-b border-gray-100 flex items-center last:border-b-0">
+    <span className="text-green-500 font-bold mr-3 w-5 text-center">✓</span>
+    {children}
+  </li>
+);
+
+export const UploadSection: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <div className="text-center p-10 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300 my-6 hover:border-blue-500 hover:bg-blue-50 transition-colors">
+    {children}
+  </div>
+);

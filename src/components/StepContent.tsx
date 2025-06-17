@@ -4,7 +4,7 @@ import { Button, Upload, Progress, message, Typography } from 'antd';
 import { DownloadOutlined, UploadOutlined, FileTextOutlined } from '@ant-design/icons';
 import type { UploadFile, UploadProps } from 'antd';
 import { useAuth } from '../contexts/AuthContext';
-import { StepCard, InstructionList, UploadSection } from './StyledComponents';
+import { StepCard, InstructionList, InstructionListItem, UploadSection } from './StyledComponents';
 
 const { Title, Paragraph } = Typography;
 
@@ -87,11 +87,11 @@ Alice Brown,alice.brown@example.com,+1-234-567-8904,HR`;
               Welcome to the ONDC Data Processing Tool. Follow these simple steps to get started:
             </Paragraph>
             <InstructionList>
-              <li>Sign in with your credentials to access all features</li>
-              <li>Download the sample CSV template from Step 2</li>
-              <li>Prepare your data according to the template format</li>
-              <li>Upload your CSV file in Step 3 for processing</li>
-              <li>Review and validate your uploaded data</li>
+              <InstructionListItem>Sign in with your credentials to access all features</InstructionListItem>
+              <InstructionListItem>Download the sample CSV template from Step 2</InstructionListItem>
+              <InstructionListItem>Prepare your data according to the template format</InstructionListItem>
+              <InstructionListItem>Upload your CSV file in Step 3 for processing</InstructionListItem>
+              <InstructionListItem>Review and validate your uploaded data</InstructionListItem>
             </InstructionList>
             {!isAuthenticated && (
               <div style={{ textAlign: 'center', marginTop: '24px' }}>
