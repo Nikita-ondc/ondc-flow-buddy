@@ -105,7 +105,7 @@ const Index: React.FC = () => {
           <StepsContainer>
             <Steps 
               current={currentStep} 
-              size="large"
+              size="default"
               onChange={handleStepClick}
             >
               {steps.map((step, index) => (
