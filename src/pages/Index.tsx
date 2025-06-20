@@ -1,62 +1,66 @@
-
-import React, { useState } from 'react';
-import { Layout, Steps, Button, Avatar, Dropdown, Space } from 'antd';
-import { UserOutlined, LogoutOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { useAuth } from '../contexts/AuthContext';
-import LoginModal from '../components/LoginModal';
-import StepContent from '../components/StepContent';
+import React, { useEffect, useState } from "react";
+import { Layout, Steps, Button, Avatar, Dropdown, Space, message } from "antd";
+import { UserOutlined, LogoutOutlined } from "@ant-design/icons";
+import type { MenuProps } from "antd";
+import { useAuth } from "../contexts/AuthContext";
+import LoginModal from "../components/LoginModal";
+import StepContent from "../components/StepContent";
+import logo from "../assets/ondc.png";
 import {
   StyledHeader,
   LogoContainer,
   MainContent,
   ContentContainer,
-  StepsContainer
-} from '../components/StyledComponents';
+  StepsContainer,
+  LogoImage,
+} from "../components/StyledComponents";
 
 const { Step } = Steps;
 
 const Index: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
-  const { isAuthenticated, user, logout } = useAuth();
+  const { isAuthenticated, logout, user } = useAuth();
+  const [percent, setPercent] = useState<number>(10);
 
   const steps = [
     {
-      title: 'Instructions',
-      description: 'Read the guidelines',
+      title: "Instructions",
+      description: "Read the guidelines",
     },
     {
-      title: 'Download CSV',
-      description: 'Get the template file',
+      title: "Download CSV",
+      description: "Get the template file",
     },
     {
-      title: 'Upload CSV',
-      description: 'Submit your data',
+      title: "Upload CSV",
+      description: "Submit your data",
+    },
+    {
+      title: "Generate CSV",
+      description: "",
     },
   ];
 
-  const userMenuItems: MenuProps['items'] = [
+  const userMenuItems: MenuProps["items"] = [
     {
-      key: 'profile',
+      key: "profile",
       icon: <UserOutlined />,
-      label: user?.name || 'Profile',
+      label: user?.name || "Profile",
     },
     {
-      type: 'divider',
+      type: "divider",
     },
     {
-      key: 'logout',
+      key: "logout",
       icon: <LogoutOutlined />,
-      label: 'Logout',
+      label: "Logout",
       onClick: logout,
     },
   ];
 
   const handleStepClick = (step: number) => {
-    if (step === 0 || isAuthenticated) {
-      setCurrentStep(step);
-    }
+    setCurrentStep(step);
   };
 
   const handleSignInClick = () => {
@@ -64,36 +68,41 @@ const Index: React.FC = () => {
   };
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout style={{ minHeight: "100vh" }}>
       <StyledHeader>
         <LogoContainer>
-          <div style={{
-            width: '40px',
-            height: '40px',
-            backgroundColor: '#1890ff',
-            borderRadius: '8px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'white',
-            fontWeight: 'bold',
-            marginRight: '12px'
-          }}>
-            ONDC
+          <div
+            style={{
+              width: "100px",
+              height: "40px",
+              marginLeft: "12px",
+            }}
+          >
+            <LogoImage src={logo} alt="ONDC Logo" />
           </div>
-          ONDC Data Portal
         </LogoContainer>
-        
+
         <div>
           {isAuthenticated ? (
             <Dropdown menu={{ items: userMenuItems }} placement="bottomRight">
-              <Space style={{ cursor: 'pointer' }}>
-                <Avatar icon={<UserOutlined />} />
+              <Space style={{ cursor: "pointer" }}>
+                <Avatar
+                  style={{ backgroundColor: "#fde3cf", color: "#f56a00" }}
+                  icon={<UserOutlined />}
+                ></Avatar>
                 <span>{user?.name}</span>
               </Space>
             </Dropdown>
           ) : (
-            <Button type="primary" onClick={handleSignInClick}>
+            <Button
+              type="primary"
+              onClick={handleSignInClick}
+              style={{
+                background:
+                  "linear-gradient(90deg, #1c75bc, #4aa1e0 51%, #1c75bc) var(--x, 100%) / 200%",
+                color: "#fff",
+              }}
+            >
               Sign In
             </Button>
           )}
@@ -103,24 +112,24 @@ const Index: React.FC = () => {
       <MainContent>
         <ContentContainer>
           <StepsContainer>
-            <Steps 
-              current={currentStep} 
+            <Steps
+              current={currentStep}
               size="default"
               onChange={handleStepClick}
             >
               {steps.map((step, index) => (
-                <Step 
+                <Step
                   key={index}
-                  title={step.title} 
+                  title={step.title}
                   description={step.description}
-                  disabled={index > 0 && !isAuthenticated}
                 />
               ))}
             </Steps>
-            
-            <StepContent 
+
+            <StepContent
               currentStep={currentStep}
               onSignInClick={handleSignInClick}
+              setCurrentStep={setCurrentStep}
             />
           </StepsContainer>
         </ContentContainer>

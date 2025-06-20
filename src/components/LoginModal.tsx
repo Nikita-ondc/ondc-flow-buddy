@@ -1,9 +1,9 @@
-
-import React, { useState } from 'react';
-import { Modal, Form, Input, Button, message } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { useAuth } from '../contexts/AuthContext';
-import { LoginCredentials } from '../types/auth';
+import React, { useEffect, useState } from "react";
+import { Modal, Form, Input, Button, message } from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import axios from "axios";
+import { useAuth } from "../contexts/AuthContext";
+import { LoginCredentials } from "../types/auth";
 
 interface LoginModalProps {
   open: boolean;
@@ -17,20 +17,30 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onCancel }) => {
 
   const handleLogin = async (values: LoginCredentials) => {
     setLoading(true);
+    localStorage.setItem("jwt_token", values.token);
     try {
-      const success = await login(values);
-      if (success) {
-        message.success('Login successful!');
+      const response = await axios.post("http://127.0.0.1:8000/auth/login", {
+        token: values.token,
+      });
+      if (response) {
+        message.success("Login successful!");
+
+        localStorage.setItem("user_data", response?.data?.username);
+        const token = values.token;
+        const user = response?.data?.username;
+        login(token, user);
+
         onCancel();
         form.resetFields();
-      } else {
-        message.error('Invalid credentials. Please try again.');
+        setLoading(false);
       }
-    } catch (error) {
-      message.error('Login failed. Please try again.');
-    } finally {
+    } catch (err: any) {
+      message.error(err.message || "Invalid credentials. Please try again.");
       setLoading(false);
     }
+  };
+  const handleRegister = async () => {
+    window.open("https://your-form-link.com", "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -49,34 +59,49 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onCancel }) => {
         layout="vertical"
       >
         <Form.Item
-          label="Email"
-          name="email"
-          rules={[
-            { required: true, message: 'Please input your email!' },
-            { type: 'email', message: 'Please enter a valid email!' }
-          ]}
+          label="Token"
+          name="token"
+          rules={[{ required: true, message: "Please enter your token!" }]}
         >
-          <Input 
-            prefix={<UserOutlined />} 
-            placeholder="Enter your email"
-            size="large"
-          />
-        </Form.Item>
-
-        <Form.Item
-          label="Password"
-          name="password"
-          rules={[{ required: true, message: 'Please input your password!' }]}
-        >
-          <Input.Password
+          <Input
             prefix={<LockOutlined />}
-            placeholder="Enter your password"
+            placeholder="Enter your token here"
             size="large"
           />
         </Form.Item>
+        <div className="mb-2">
+          <span
+            style={{
+              textAlign: "center",
+              marginTop: "16px",
+              fontSize: "14px",
+              fontWeight: 600,
+              color: "#666",
+              cursor: "pointer",
+            }}
+          >
+            Note :
+          </span>
+          <span
+            style={{
+              textAlign: "center",
+              marginTop: "16px",
+              fontSize: "12px",
+              color: "#666",
+            }}
+          >
+            {" "}
+            kindly note that the token has been shared with you through email.{" "}
+          </span>
+        </div>
 
         <Form.Item>
           <Button
+            style={{
+              background:
+                "linear-gradient(90deg, #1c75bc, #4aa1e0 51%, #1c75bc) var(--x, 100%) / 200%",
+              color: "#fff",
+            }}
             type="primary"
             htmlType="submit"
             loading={loading}
@@ -87,9 +112,29 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onCancel }) => {
           </Button>
         </Form.Item>
       </Form>
-      
-      <div style={{ textAlign: 'center', marginTop: '16px', fontSize: '12px', color: '#666' }}>
-        Demo credentials: Any email and password will work
+
+      <div
+        style={{
+          textAlign: "center",
+          marginTop: "16px",
+          fontSize: "12px",
+          color: "#666",
+        }}
+      >
+        don't have credential to login?{" "}
+        <span
+          style={{
+            textAlign: "center",
+            marginTop: "16px",
+            fontSize: "14px",
+            fontWeight: 600,
+            color: "#666",
+            cursor: "pointer",
+          }}
+          onClick={handleRegister}
+        >
+          Register here
+        </span>
       </div>
     </Modal>
   );

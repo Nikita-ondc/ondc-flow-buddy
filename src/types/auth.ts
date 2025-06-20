@@ -1,19 +1,21 @@
 
 export interface User {
-  id: string;
-  email: string;
   name: string;
+}
+export interface login {
+  token: string;
+  user: string;
 }
 
 export interface LoginCredentials {
-  email: string;
-  password: string;
+  token: string;
 }
+
 
 export interface AuthContextType {
   user: User | null;
   token: string | null;
-  login: (credentials: LoginCredentials) => Promise<boolean>;
+  login: any
   logout: () => void;
   isAuthenticated: boolean;
 }

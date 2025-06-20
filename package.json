@@ -42,6 +42,7 @@
     "@tanstack/react-query": "^5.56.2",
     "@types/styled-components": "^5.1.34",
     "antd": "^5.26.1",
+    "axios": "^1.10.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
