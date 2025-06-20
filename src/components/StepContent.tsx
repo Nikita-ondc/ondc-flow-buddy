@@ -255,7 +255,9 @@ const StepContent: React.FC<StepContentProps> = ({
                 Download the sample CSV template from Step 2
               </InstructionListItem>
               <InstructionListItem>
-                Prepare your data according to the template format
+                Prepare your data according to the template format, Use the
+                defined GeoJson and update your store serviceability in your
+                catalog
               </InstructionListItem>
               <InstructionListItem>
                 Upload your CSV file in Step 3 for processing and Click on
