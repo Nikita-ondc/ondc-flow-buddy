@@ -40,7 +40,11 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onCancel }) => {
     }
   };
   const handleRegister = async () => {
-    window.open("https://your-form-link.com", "_blank", "noopener,noreferrer");
+    window.open(
+      "https://forms.gle/yocysNhb7mkLFZDq5",
+      "_blank",
+      "noopener,noreferrer"
+    );
   };
 
   return (
