@@ -36,6 +36,7 @@ const StepContent: React.FC<StepContentProps> = ({
   const [id, setId] = useState(null);
   let interval: NodeJS.Timeout;
 
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
   useEffect(() => {
     setNext(false);
     setUploading(false);
@@ -47,12 +48,9 @@ const StepContent: React.FC<StepContentProps> = ({
   };
   const handleDownloadCSV = async () => {
     try {
-      const response = await axios.get(
-        "http://127.0.0.1:8000/catchment/sample-csv",
-        {
-          responseType: "blob",
-        }
-      );
+      const response = await axios.get(`${apiUrl}/catchment/sample-csv`, {
+        responseType: "blob",
+      });
 
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
@@ -76,7 +74,7 @@ const StepContent: React.FC<StepContentProps> = ({
   const onDownloadSCV = async () => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/catchment/csv/${id}`,
+        `${apiUrl}/catchment/csv/${id}`,
 
         {
           headers: {
@@ -154,7 +152,7 @@ const StepContent: React.FC<StepContentProps> = ({
       formData.append("file", file);
       try {
         const response = await axios.post(
-          "http://127.0.0.1:8000/catchment/bulk",
+          `${apiUrl}/catchment/bulk`,
           formData,
           {
             headers: {
@@ -199,7 +197,7 @@ const StepContent: React.FC<StepContentProps> = ({
     const fetchStatus = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/catchment/csv-status/${id}`,
+          `${apiUrl}/catchment/csv-status/${id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

@@ -14,12 +14,12 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onCancel }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
-
+  const apiUrl = import.meta.env.VITE_API_BASE_URL;
   const handleLogin = async (values: LoginCredentials) => {
     setLoading(true);
     localStorage.setItem("jwt_token", values.token);
     try {
-      const response = await axios.post("http://127.0.0.1:8000/auth/login", {
+      const response = await axios.post(`${apiUrl}/auth/login`, {
         token: values.token,
       });
       if (response) {
